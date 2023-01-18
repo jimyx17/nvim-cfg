@@ -1,6 +1,3 @@
-local fn = vim.fn
-local utils = require("utils")
-
 -- Plugin List
 local plugin_list = {
   -- core plugins
@@ -44,9 +41,9 @@ local plugin_list = {
   { "williamboman/mason-lspconfig.nvim", lazy = true},
   { "tamago324/nlsp-settings.nvim", lazy = true},
   { "jose-elias-alvarez/null-ls.nvim", lazy = true}, -- for formatters and linters
-  { "RRethy/vim-illuminate"},
-
-  { "williamboman/mason.nvim"},
+  { "RRethy/vim-illuminate", lazy = true},
+  { "williamboman/mason.nvim", lazy = true},
+  { "ray-x/lsp_signature.nvim", lazy = true}, -- Show function signatures
 
   -- Telescope
   { "nvim-telescope/telescope.nvim", lazy = true, dependecies = {"telescope-fzf-native.nvim"}, cmd = "Telescope"},
@@ -72,4 +69,5 @@ local plugin_list = {
   { "Tastyep/structlog.nvim" },
 }
 
-vim.g.pkg_mgr.update_plugin_list(plugin_list)
+
+return plugin_list
