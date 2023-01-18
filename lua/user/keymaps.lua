@@ -101,11 +101,20 @@ keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
 
 -- Term
-keymap("n", "<C-t>", "<cmd>lua start_termtab()<cr>", opts)
-keymap("n", "<leader>t", "<cmd>lua start_termhorizontal()<cr>", opts)
+keymap("n", "<C-t>", "<cmd>ToggleTerm direction=float<cr>", opts)
+keymap("n", "<leader>to", "<cmd>ToggleTerm size=20 direction=horizontal<cr>", opts)
+keymap("n", "<leader>tt", "<cmd>ToggleTermToggleAll<cr>", opts)
 
  -- need something to exit from terminal
--- keymap("t", "jk", "<cmd>Bdelete!<cr><C-w>c", opts) -- need something to exit from terminal
+keymap("t", "<esc>", [[<C-\><C-n>]], opts)
+keymap("t", "<esc><esc>", [[<C-\><C-n><C-w>c]], opts)
+keymap("t", "<esc>2", [[<C-\><C-n><cmd>2ToggleTerm<cr>]], opts)
+keymap("t", "<esc>3", [[<C-\><C-n><cmd>3ToggleTerm<cr>]], opts)
+keymap("t", "<esc>c", [[<C-\><C-n><cmd>ToggleTermToggleAll<cr>]], opts)
+keymap("t", "<c-h>", [[<C-\><C-n><C-W>h]], opts)
+keymap("t", "<c-j>", [[<C-\><C-n><C-W>j]], opts)
+keymap("t", "<c-k>", [[<C-\><C-n><C-W>k]], opts)
+keymap("t", "<c-l>", [[<C-\><C-n><C-W>l]], opts)
 
 -- General out
 keymap("n", "<leader>xx", ":qall!<cr>", opts)
