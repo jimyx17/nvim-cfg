@@ -22,7 +22,10 @@ toggleterm.setup {
 local Terminal = require("toggleterm.terminal").Terminal
 local lazygit = Terminal:new { cmd = "lazygit", hidden = true, direction = "tab" }
 
-function start_lazygit()
+local M = {}
+
+function M.start_lazygit()
   lazygit:toggle()
 end
 
+return M

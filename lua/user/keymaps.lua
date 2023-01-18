@@ -79,7 +79,7 @@ keymap("n", "<leader>fp", ":Telescope projects<CR>", opts)
 keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
 
 -- Git
-keymap("n", "<leader>gg", "<cmd>lua start_lazygit()<CR>", opts)
+keymap("n", "<leader>gg", "<cmd>lua require('user.toggleterm').start_lazygit()<CR>", opts)
 
 -- Comment
 keymap("n", "<leader>cc", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
