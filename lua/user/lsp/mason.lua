@@ -20,6 +20,7 @@ local settings = {
 	},
 	log_level = vim.log.levels.INFO,
 	max_concurrent_installers = 4,
+  automatic_installation = true
 }
 
 require("mason").setup(settings)

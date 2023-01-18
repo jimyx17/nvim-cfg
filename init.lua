@@ -1,4 +1,4 @@
-require "user.impatient"
+require "bootstrap"
 require "user.options"
 require "user.keymaps"
 require "user.plugins"

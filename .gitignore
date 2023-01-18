@@ -39,7 +39,8 @@ luac.out
 *.x86_64
 *.hex
 
+# Lazy mgr lock file
+pkg_mgr_lock.json
 
-plugin/packer_compiled.lua
 java-debug/
 vscode-java-test/
