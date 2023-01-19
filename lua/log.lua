@@ -29,40 +29,39 @@ function Log:init()
   if not status_ok then
     return nil
   end
-
   local log_level = Log.levels[(vim.log.level):upper() or "WARN"]
   local vim_log = {
     vim = {
-      sinks = {
-        structlog.sinks.Console(log_level, {
-          async = false,
+      pipelines = {
+        {
+          level = log_level,
           processors = {
-            structlog.processors.Namer(),
             structlog.processors.StackWriter({ "line", "file" }, { max_parents = 0, stack_level = 2 }),
             structlog.processors.Timestamper "%H:%M:%S",
           },
           formatter = structlog.formatters.FormatColorizer( --
-            "%s [%-5s] %s: %-30s",
+            "%s [%s] %s: %-30s",
             { "timestamp", "level", "logger_name", "msg" },
             { level = structlog.formatters.FormatColorizer.color_level() }
           ),
-        }),
-        structlog.sinks.File(log_level, self:get_path(), {
+          sink = structlog.sinks.Console(true),
+        },
+        {
+          level = log_level,
           processors = {
-            structlog.processors.Namer(),
             structlog.processors.StackWriter({ "line", "file" }, { max_parents = 3, stack_level = 2 }),
-            structlog.processors.Timestamper "%F %H:%M:%S",
+            structlog.processors.Timestamper "%H:%M:%S",
           },
           formatter = structlog.formatters.Format( --
-            "%s [%-5s] %s: %-30s",
+            "%s [%s] %s: %-30s",
             { "timestamp", "level", "logger_name", "msg" }
           ),
-        }),
+          sink = structlog.sinks.File(self:get_path()),
+        },
       },
     },
   }
 
-  vim_log.vim.sinks[1].async = false -- HACK: Bug in structlog prevents setting async to false
   structlog.configure(vim_log)
   local logger = structlog.get_logger "vim"
 

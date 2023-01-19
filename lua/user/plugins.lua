@@ -46,7 +46,8 @@ local plugin_list = {
   { "ray-x/lsp_signature.nvim", lazy = true}, -- Show function signatures
 
   -- Telescope
-  { "nvim-telescope/telescope.nvim", lazy = true, dependecies = {"telescope-fzf-native.nvim"}, cmd = "Telescope"},
+  { "nvim-telescope/telescope.nvim", lazy = true, dependencies = {"telescope-fzf-native.nvim"}, cmd = "Telescope"},
+  { "nvim-telescope/telescope-fzf-native.nvim", lazy = true },
 
   -- Treesitter
   {

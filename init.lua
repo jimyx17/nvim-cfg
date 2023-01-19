@@ -1,6 +1,9 @@
 ---Main configuration init flow
 
 ---STAGE 1: boot and initialize lower layer bindings and behaviour
+--
+-- Setup user options to modify basic NVIM behaviour
+require("user.options").setup()
 
 --First, configure keybindings
 require("user.keymaps").setup()
@@ -13,9 +16,6 @@ require("package_manager").setup()
 local plugins = require("user.plugins")
 vim.g.pkg_mgr.update_plugin_list(plugins)
 vim.notify_once("Plugin load finished")
-
--- Setup user options to modify basic NVIM behaviour
-require("user.options").setup()
 
 -- Register autocommands
 require("user.autocommands").setup()
@@ -44,7 +44,7 @@ require("user.cmp").setup()
 
 -- Pop windows. ie Telescope
 require("user.telescope").setup()
- 
+
 -- Setup file browser
 require("user.nvim-tree").setup()
 

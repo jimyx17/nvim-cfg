@@ -3,11 +3,25 @@ local M = {}
 local uv = vim.loop
 local path_sep = uv.os_uname().version:match "Windows" and "\\" or "/"
 
+local function find_first(t, predicate)
+  for _, entry in pairs(t) do
+    if predicate(entry) then
+      return entry
+    end
+  end
+end
+
 ---Join path segments passed as input
 ---@return string
 function M.join_paths(...)
   local result = table.concat({...}, path_sep)
   return result
+end
+
+---Split path in dir + basefile/basedir
+---#return string
+function M.split_path(fp)
+  return fp:match("(.*)[/\\](.*)$")
 end
 
 ---Returns nvim runtime directory
@@ -54,6 +68,14 @@ function M.is_directory(path)
   return stat and stat.type == "directory" or false
 end
 
+---Return whether the server defined by name is active
+---@return true|false
+function M.is_client_active(name)
+  local clients = vim.lsp.get_active_clients()
+  return find_first(clients, function (client)
+    return client.name == name
+  end)
+end
 
 --HACK: Setup nvim cache path
 vim.fn.stdpath = function (obj)
