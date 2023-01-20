@@ -228,6 +228,29 @@ function M.setup()
       vim.api.nvim_set_hl(0, "SLSeparator", { fg = cursorline_hl.background, bg = statusline_hl.background })
     end,
   })
+
+  vim.api.nvim_create_augroup("_lsp_installer", {})
+  vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
+    group = "_lsp_installer",
+    callback = function(args)
+      Log:debug("CALLED AUTOCOMMAND")
+      local ft = vim.bo.filetype
+      if not ft then
+        ft, _ = vim.filetype.match({ filename = args.match, buf = args.buf })
+      end
+      if not ft then
+        ft = require('vim.filetype.detect').conf(args.file, args.buf)
+      end
+      pcall(function()
+        local server_names = require("mason-lspconfig").get_available_servers({ filetype = ft })
+        Log:debug(vim.inspect(server_names))
+        for _, server in pairs(server_names) do
+          require("user.lsp.manager").setup(server)
+        end
+      end)
+    end
+  })
+
 end
 
 return M

@@ -103,7 +103,6 @@ function M.setup()
     omnifunc = "v:lua.vim.lsp.omnifunc",
     formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:500})",
   }
-  vim.lsp.templates_dir = u.join_paths(u.get_config_dir(), "ftplugin")
   vim.lsp.automatic_configuration = {
     skipped_servers   = {},
     skipped_filetypes = { "markdown", "rst", "plaintext", "toml", "proto" },

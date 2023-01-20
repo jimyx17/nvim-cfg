@@ -1,6 +1,5 @@
 local M = {}
 local Log = require("log")
-local utils = require("utils")
 local autocmds = require("user.autocommands")
 
 local function add_lsp_buffer_options(bufnr)
@@ -96,14 +95,6 @@ function M.setup()
 
   Log:debug("Setting up LSP Handlers")
   require("user.lsp.handlers").setup()
-
-  if utils.is_directory_empty(vim.lsp.templates_dir) then
-    utils.remove_path(vim.lsp.templates_dir)
-  end
-
-  if not utils.is_directory(vim.lsp.templates_dir) then
-    require("user.lsp.templates").generate_templates()
-  end
 
   Log:debug("importing nlspsettings")
   require("nlspsettings").setup(vim.lsp.nlsp_settings.setup)
