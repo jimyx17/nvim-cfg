@@ -36,8 +36,8 @@ require("user.bufferline").setup()
 require("user.lualine").setup()
 
 ---STAGE 3: configure the rest of plugins
---At this point we can add the rest of configuration 
---of this nvim config. 
+--At this point we can add the rest of configuration
+--of this nvim config.
 
 -- Autocomplete.
 require("user.cmp").setup()

@@ -1,7 +1,9 @@
 local M = {}
 
+local u = require("utils")
+local ascii_icons = require("user.ascii_icons")
+
 function M.setup()
-  vim.log.level = "DEBUG"
   vim.opt.backup = false -- creates a backup file
   vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
   vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
@@ -44,7 +46,91 @@ function M.setup()
   vim.opt.iskeyword:append "-" -- treats words with `-` as single words
   vim.opt.formatoptions:remove { "c", "r", "o" } -- This is a sequence of letters which describes how automatic formatting is to be done
   vim.opt.linebreak = true
+  vim.log.level = "DEBUG"
+
+  -- Diagnostics
   vim.diagnostic.virtual_text = true
+  vim.diagnostic.underline = true
+  vim.diagnostic.update_in_insert = true
+  vim.diagnostic.severity_sort = true
+  vim.diagnostic.signs = {
+    active = true,
+    values = {
+      { name = "DiagnosticSignError", text = ascii_icons.icons.Error },
+      { name = "DiagnosticSignWarn", text = ascii_icons.icons.Warning },
+      { name = "DiagnosticSignHint", text = ascii_icons.icons.Hint },
+      { name = "DiagnosticSignInfo", text = ascii_icons.icons.Info },
+    },
+  }
+  vim.diagnostic.float = {
+    focusable = false,
+    style = "minimal",
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
+    format = function(d)
+      local code = d.code or (d.user_data and d.user_data.lsp.code)
+      if code then
+        return string.format("%s [%s]", d.message, code):gsub("1. ", "")
+      end
+      return d.message
+    end,
+  }
+
+  -- LSP
+  vim.lsp.buffer_mappings = {
+    normal_mode = {
+      ["K"] = { vim.lsp.buf.hover, "Show hover" },
+      ["gd"] = { vim.lsp.buf.definition, "Goto Definition" },
+      ["gD"] = { vim.lsp.buf.declaration, "Goto declaration" },
+      ["gr"] = { vim.lsp.buf.references, "Goto references" },
+      ["gI"] = { vim.lsp.buf.implementation, "Goto Implementation" },
+      ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
+      ["gl"] = {
+        function()
+          local config = vim.lsp.diagnostics.float
+          config.scope = "line"
+          vim.diagnostic.open_float(0, config)
+        end,
+        "Show line diagnostics",
+      },
+    },
+    insert_mode = {},
+    visual_mode = {},
+  }
+  vim.lsp.buffer_options = {
+    omnifunc = "v:lua.vim.lsp.omnifunc",
+    formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:500})",
+  }
+  vim.lsp.templates_dir = u.join_paths(u.get_config_dir(), "ftplugin")
+  vim.lsp.automatic_configuration = {
+    skipped_servers   = {},
+    skipped_filetypes = { "markdown", "rst", "plaintext", "toml", "proto" },
+  }
+  vim.lsp.installer = {
+    setup = {
+      ensure_installed = {},
+      automatic_installation = {
+        exclude = {},
+      }
+    }
+  }
+  vim.lsp.null_ls = {
+    setup = {}
+  }
+  vim.lsp.nlsp_settings = {
+    setup = {
+      config_home = u.join_paths(u.get_config_dir(), "lsp-settings"),
+      -- set to false to overwrite schemastore.nvim
+      append_default_schemas = true,
+      ignored_servers = {},
+      loader = "json",
+    },
+  }
+  -- Custom configuration
+  vim.g.format_on_save = true
+
 end
 
 return M

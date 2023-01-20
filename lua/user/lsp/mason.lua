@@ -1,53 +1,56 @@
-local servers = {
-	"sumneko_lua",
-	"cssls",
-	"html",
-	"tsserver",
-	"pyright",
-	"bashls",
-	"jsonls",
-	"yamlls",
-}
+local M = {}
 
-local settings = {
-	ui = {
-		border = "none",
-		icons = {
-			package_installed = "◍",
-			package_pending = "◍",
-			package_uninstalled = "◍",
-		},
-	},
-	log_level = vim.log.levels.INFO,
-	max_concurrent_installers = 4,
-  automatic_installation = true
-}
+local u = require("utils")
 
-require("mason").setup(settings)
-require("mason-lspconfig").setup({
-	ensure_installed = servers,
-	automatic_installation = true,
-})
+function M.setup()
 
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
-	return
+  local mason_settings = {
+    ui = {
+      border = "rounded",
+      keymaps = {
+        toggle_package_expand = "<CR>",
+        install_package = "i",
+        update_package = "u",
+        check_package_version = "c",
+        update_all_packages = "U",
+        check_outdated_packages = "C",
+        uninstall_package = "X",
+        cancel_installation = "<C-c>",
+        apply_language_filter = "<C-f>",
+      },
+    },
+
+    -- NOTE: should be available in $PATH
+    install_root_dir = u.join_paths(u.get_runtime_dir(), "mason"),
+
+    pip = {
+      -- These args will be added to `pip install` calls. Note that setting extra args might impact intended behavior
+      -- and is not recommended.
+      --
+      -- Example: { "--proxy", "https://proxyserver" }
+      install_args = {},
+    },
+
+    -- Controls to which degree logs are written to the log file. It's useful to set this to vim.log.levels.DEBUG when
+    -- debugging issues with package installations.
+    log_level = vim.log.levels.INFO,
+
+    -- Limit for the maximum amount of packages to be installed at the same time. Once this limit is reached, any further
+    -- packages that are requested to be installed will be put in a queue.
+    max_concurrent_installers = 4,
+
+    github = {
+      -- The template URL to use when downloading assets from GitHub.
+      -- The placeholders are the following (in order):
+      -- 1. The repository (e.g. "rust-lang/rust-analyzer")
+      -- 2. The release version (e.g. "v0.3.0")
+      -- 3. The asset name (e.g. "rust-analyzer-v0.3.0-x86_64-unknown-linux-gnu.tar.gz")
+      download_url_template = "https://github.com/%s/releases/download/%s/%s",
+    },
+  }
+
+  require("mason").setup(mason_settings)
+  require("mason-lspconfig").setup(vim.lsp.installer.setup)
 end
 
-local opts = {}
-
-for _, server in pairs(servers) do
-	opts = {
-		on_attach = require("user.lsp.handlers").on_attach,
-		capabilities = require("user.lsp.handlers").capabilities,
-	}
-
-	server = vim.split(server, "@")[1]
-
-	local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
-	if require_ok then
-		opts = vim.tbl_deep_extend("force", conf_opts, opts)
-	end
-
-	lspconfig[server].setup(opts)
-end
+return M
