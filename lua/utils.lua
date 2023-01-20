@@ -14,12 +14,12 @@ end
 ---Join path segments passed as input
 ---@return string
 function M.join_paths(...)
-  local result = table.concat({...}, path_sep)
+  local result = table.concat({ ... }, path_sep)
   return result
 end
 
 ---Split path in dir + basefile/basedir
----#return string
+---@return string
 function M.split_path(fp)
   return fp:match("(.*)[/\\](.*)$")
 end
@@ -68,21 +68,93 @@ function M.is_directory(path)
   return stat and stat.type == "directory" or false
 end
 
+---Returns whether the path is a directory and is empty
+---@return true|false
+function M.is_directory_empty(path)
+
+  if not M.is_directory(path) then
+    return false
+  end
+
+  local d = vim.fn.readdir(path)
+
+  return vim.fn.empty(d) == 1 or false
+end
+
+---Returns whether str starts with subpattern "start"
+---@return true|false
+function M.string_starts_with(str, start)
+  return str:sub(1, #start) == start
+end
+
+---Returns whether str ends with subpattern "start"
+---@return true|false
+function M.string_ends_with(str, ending)
+  return ending == "" or str:sub(- #ending) == ending
+end
+
+---Removes files pointed by path
+--@return nil
+function M.remove_path(path)
+  assert(M.string_starts_with(path, M.get_cache_dir()) or M.string_starts_with(path, M.get_runtime_dir()))
+  assert(not path:find("..", 0, true), path)
+  assert(not path:find("//", 0, true), path)
+  vim.fn.delete(path, "rf")
+end
+
+---Write data to a file
+---@param path string can be full or relative to `cwd`
+---@param txt string|table text to be written, uses `vim.inspect` internally for tables
+---@param flag string used to determine access mode, common flags: "w" for `overwrite` or "a" for `append`
+function M.write_file(path, txt, flag)
+  local data = type(txt) == "string" and txt or vim.inspect(txt)
+  uv.fs_open(path, flag, 438, function(open_err, fd)
+    assert(not open_err, open_err)
+    uv.fs_write(fd, data, -1, function(write_err)
+      assert(not write_err, write_err)
+      uv.fs_close(fd, function(close_err)
+        assert(not close_err, close_err)
+      end)
+    end)
+  end)
+end
+
 ---Return whether the server defined by name is active
 ---@return true|false
 function M.is_client_active(name)
   local clients = vim.lsp.get_active_clients()
-  return find_first(clients, function (client)
+  return find_first(clients, function(client)
     return client.name == name
   end)
 end
 
 --HACK: Setup nvim cache path
-vim.fn.stdpath = function (obj)
+vim.fn.stdpath = function(obj)
   if obj == "cache" then
     return M.get_cache_dir()
   end
   return vim.call("stdpath", obj)
+end
+
+--- Find the first entry for which the predicate returns true.
+-- @param t The table
+-- @param predicate The function called for each entry of t
+-- @return The entry for which the predicate returned True or nil
+function M.find_first(t, predicate)
+  for _, entry in pairs(t) do
+    if predicate(entry) then
+      return entry
+    end
+  end
+  return nil
+end
+
+--- Check if the predicate returns True for at least one entry of the table.
+-- @param t The table
+-- @param predicate The function called for each entry of t
+-- @return True if predicate returned True at least once, false otherwise
+function M.contains(t, predicate)
+  return M.find_first(t, predicate) ~= nil
 end
 
 return M
