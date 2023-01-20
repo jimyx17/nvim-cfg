@@ -1,7 +1,7 @@
 local M = {}
 local Log = require("log")
 local utils = require("utils")
-local autocmds = require("user.autocmd")
+local autocmds = require("user.autocommands")
 
 local function add_lsp_buffer_options(bufnr)
   for k, v in pairs(vim.lsp.buffer_options) do
@@ -45,10 +45,10 @@ end
 
 function M.common_on_exit(_, _)
   if vim.lsp.document_highlight then
-    autocmds.clear_augroup "lsp_document_highlight"
+    autocmds.clear_augroup("lsp_document_highlight")
   end
   if vim.lsp.code_lens_refresh then
-    autocmds.clear_augroup "lsp_code_lens_refresh"
+    autocmds.clear_augroup("lsp_code_lens_refresh")
   end
 end
 
