@@ -16,7 +16,7 @@ function M.setup()
     local lazy = require "lazy"
     current_config.spec = configuration
 
-    require("lazy.core.plugin").load(true)
+    require("lazy.core.plugin").load()
     require("lazy.core.plugin").update_state()
 
     local plugins_not_installed = vim.tbl_filter(function(plugin)
