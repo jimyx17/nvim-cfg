@@ -36,7 +36,7 @@ function Log:init()
         {
           level = log_level,
           processors = {
-            structlog.processors.StackWriter({ "line", "file" }, { max_parents = 0, stack_level = 2 }),
+            structlog.processors.StackWriter({ "line", "file" }, { max_parents = 0, stack_level = 3 }),
             structlog.processors.Timestamper "%H:%M:%S",
           },
           formatter = structlog.formatters.FormatColorizer( --
@@ -49,7 +49,7 @@ function Log:init()
         {
           level = log_level,
           processors = {
-            structlog.processors.StackWriter({ "line", "file" }, { max_parents = 3, stack_level = 2 }),
+            structlog.processors.StackWriter({ "line", "file" }, { max_parents = 3, stack_level = 3 }),
             structlog.processors.Timestamper "%H:%M:%S",
           },
           formatter = structlog.formatters.Format( --
