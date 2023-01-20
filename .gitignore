@@ -39,6 +39,9 @@ luac.out
 *.x86_64
 *.hex
 
+# Templates for LSP manager
+ftplugin/
+
 # Lazy mgr lock file
 pkg_mgr_lock.json
 
