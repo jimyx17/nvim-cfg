@@ -35,7 +35,7 @@ function M.setup()
   function plugin_manager.update_plugin_list(configuration)
     local lazy_ok, lazy = pcall(require, "lazy")
     if not lazy_ok then
-      print "Lazy has not been loaded. Wait longer or check why it's not loading"
+      print("Lazy has not been loaded. Wait longer or check why it's not loading")
       return
     end
 

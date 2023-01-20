@@ -10,7 +10,7 @@ local function download_plugin(url)
   local plugin_install_path = utils.join_paths(plugin_path, plugin_name)
 
   if not utils.is_directory(plugin_install_path) then
-    print(string.format("no %s plugin found. need to boot it up", plugin_name))
+    print(string.format("no %s plugin found, trying to boot it up", plugin_name))
     if not utils.is_directory(plugin_path) then
       vim.fn.mkdir(plugin_path, "p")
     end

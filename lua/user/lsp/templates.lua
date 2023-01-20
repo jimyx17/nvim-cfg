@@ -28,7 +28,7 @@ end
 ---@param server_name string name of a valid language server, e.g. pyright, gopls, tsserver, etc.
 ---@param dir string the full path to the desired directory
 function M.generate_ftplugin(server_name, dir)
-    Log:debug("is here where I associate things?")
+  Log:debug("is here where I associate things?")
   if should_skip(server_name) then
     return
   end
@@ -45,7 +45,7 @@ function M.generate_ftplugin(server_name, dir)
   for _, filetype in ipairs(filetypes) do
     local filename = utils.join_paths(dir, filetype .. ".lua")
     local setup_cmd = string.format([[require("user.lsp.manager").setup(%q)]], server_name)
-    -- print("using setup_cmd: " .. setup_cmd)
+
     -- overwrite the file completely
     utils.write_file(filename, setup_cmd .. "\n", "a")
   end
