@@ -105,6 +105,15 @@ function M.setup()
 
   -- Lsp
   keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
+  keymap("n", "<leader>lj",
+    "<cmd>lua vim.diagnostic.goto_next({float = {border = 'rounded', focusable = false, source = 'always'}, severity = {min = vim.diagnostic.severity.WARN}})<cr>"
+    , opts)
+  keymap("n", "<leader>lJ",
+    "<cmd>lua vim.diagnostic.goto_prev({float = {border = 'rounded', focusable = false, source = 'always'}, severity = {min = vim.diagnostic.severity.WARN}})<cr>"
+    , opts)
+  keymap("n", "<leader>ll",
+    "<cmd>lua vim.diagnostic.open_float({float = {border = 'rounded', focusable = false, source = 'always'}, severity = {min = vim.diagnostic.severity.WARN}})<cr>"
+    , opts)
 
   -- Term
   keymap("n", "<C-t>", "<cmd>ToggleTerm direction=float<cr>", opts)
