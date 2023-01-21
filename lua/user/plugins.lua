@@ -39,7 +39,9 @@ local plugin_list = {
   { "rafamadriz/friendly-snippets", lazy = true }, -- a bunch of snippets to use
 
   -- LSP
-  { "lvimuser/lsp-inlayhints.nvim", lazy = true },
+  { "lvimuser/lsp-inlayhints.nvim", lazy = true, config = function()
+    require("lsp-inlayhints").setup()
+  end },
   { "folke/neodev.nvim", lazy = true },
   { "neovim/nvim-lspconfig", dependencies = { "mason-lspconfig.nvim", "nlsp-settings.nvim" }, lazy = true }, -- enable LSP
   { "williamboman/mason-lspconfig.nvim", lazy = true },
