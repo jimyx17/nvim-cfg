@@ -1,10 +1,12 @@
 local u = require('utils')
+local Log = require("log")
 
 local default_workspace = {
   library = {
-    u.get_runtime_dir(),
     u.get_config_dir(),
     require("neodev.config").types(),
+    "${3rd}/busted/library",
+    "${3rd}/luassert/library",
   },
   checkThirdParty = false,
 
@@ -54,7 +56,7 @@ local opts = {
         },
       },
       diagnostics = {
-        globals = { "vim", "lvim", "packer_plugins", "reload" },
+        globals = { "vim", "reload" },
       },
       workspace = default_workspace,
     },
