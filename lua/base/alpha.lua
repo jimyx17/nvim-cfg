@@ -6,10 +6,10 @@ function M.setup()
     return
   end
 
-  local icons = require "user.ascii_icons"
+  local icons = require("user.ascii_icons")
 
-  local dashboard = require "alpha.themes.dashboard"
-  dashboard.section.header.val = require("user.banners").dashboard()
+  local dashboard = require("alpha.themes.dashboard")
+  dashboard.section.header.val = require("base.banners").dashboard()
   dashboard.section.buttons.val = {
     dashboard.button("f", icons.dashboard.FindFile .. " Find file", ":Telescope find_files <CR>"),
     dashboard.button("e", icons.dashboard.NewFile .. " New file", ":ene <BAR> startinsert <CR>"),
@@ -24,7 +24,7 @@ function M.setup()
     dashboard.button("q", icons.dashboard.Quit .. " Quit", ":qa<CR>"),
   }
 
-  dashboard.section.footer.val = require "alpha.fortune"()
+  dashboard.section.footer.val = require("alpha.fortune")()
 
   dashboard.section.footer.opts.hl = "Type"
   dashboard.section.header.opts.hl = "Include"

@@ -1,10 +1,10 @@
 local M = {}
 
-local Log = require "lvim.core.log"
+local Log = require("base.log")
 
 local function find_root_dir()
   local util = require("lspconfig.util")
-  local lsp_utils = require "lvim.lsp.utils"
+  local lsp_utils = require("base.lsp.utils")
 
   local ts_client = lsp_utils.is_client_active "typescript"
   if ts_client then
@@ -21,7 +21,7 @@ local function from_node_modules(command)
     return nil
   end
 
-  local join_paths = require("lvim.utils").join_paths
+  local join_paths = require("base.utils").join_paths
   return join_paths(root_dir, "node_modules", ".bin", command)
 end
 
@@ -49,7 +49,7 @@ function M.find_command(command)
 end
 
 function M.list_registered_providers_names(filetype)
-  local s = require "null-ls.sources"
+  local s = require("null-ls.sources")
   local available_sources = s.get_available(filetype)
   local registered = {}
   for _, source in ipairs(available_sources) do
@@ -62,7 +62,7 @@ function M.list_registered_providers_names(filetype)
 end
 
 function M.register_sources(configs, method)
-  local null_ls = require "null-ls"
+  local null_ls = require("null-ls")
   local is_registered = require("null-ls.sources").is_registered
 
   local sources, registered_names = {}, {}

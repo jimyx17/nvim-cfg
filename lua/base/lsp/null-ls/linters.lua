@@ -1,9 +1,9 @@
 local M = {}
 
-local Log = require "lvim.core.log"
+local Log = require "base.log"
 
 local null_ls = require "null-ls"
-local services = require "lvim.lsp.null-ls.services"
+local services = require "base.lsp.null-ls.services"
 local method = null_ls.methods.DIAGNOSTICS
 
 local alternative_methods = {

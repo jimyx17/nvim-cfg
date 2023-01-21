@@ -1,6 +1,6 @@
 local M = {}
-local Log = require("log")
-local autocmds = require("user.autocommands")
+local Log = require("base.log")
+local autocmds = require("base.autocommands")
 
 local function add_lsp_buffer_options(bufnr)
   for k, v in pairs(vim.lsp.buffer_options) do
@@ -64,7 +64,7 @@ function M.common_on_attach(client, bufnr)
     vim.lsp.on_attach_callback(client, bufnr)
     Log:debug "Called lsp.on_attach_callback"
   end
-  local lu = require "user.lsp.utils"
+  local lu = require("base.lsp.utils")
   if vim.lsp.document_highlight then
     lu.setup_document_highlight(client, bufnr)
   end
@@ -97,13 +97,13 @@ function M.setup()
   require("nlspsettings").setup(vim.lsp.nlsp_settings.setup)
 
   -- Setting up the LSP installer
-  require("user.lsp.mason").setup()
+  require("base.lsp.mason").setup()
 
-  local util = require "lspconfig.util"
+  local util = require("lspconfig.util")
   -- automatic_installation is handled by lsp-manager
   util.on_setup = nil
 
-  require("user.lsp.null-ls").setup()
+  require("base.lsp.null-ls").setup()
 
   autocmds.configure_format_on_save()
 end

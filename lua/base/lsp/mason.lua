@@ -1,6 +1,6 @@
 local M = {}
 
-local u = require("utils")
+local u = require("base.utils")
 
 function M.setup()
 

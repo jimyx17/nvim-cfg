@@ -1,7 +1,7 @@
 local M = {}
 
 local fn = vim.fn
-local utils = require("utils")
+local utils = require("base.utils")
 
 local function download_plugin(url)
   -- Automatically install lazy
@@ -39,7 +39,7 @@ local function install_logger()
 end
 
 local function init_lazy_cache()
-  local lazy_cache = require "lazy.core.cache"
+  local lazy_cache = require("lazy.core.cache")
   lazy_cache.setup {
     performance = {
       enabled = true,
@@ -53,7 +53,7 @@ end
 function M.boot()
   install_lazy()
   install_logger()
-  require("log"):set_level(vim.log.level)
+  require("base.log"):set_level(vim.log.level)
   vim.opt.runtimepath:append(utils.join_paths(utils.get_plugin_image_dir(), "*"))
   init_lazy_cache()
 end

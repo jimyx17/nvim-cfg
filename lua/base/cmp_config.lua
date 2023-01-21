@@ -15,10 +15,10 @@ local cmp_sources = {
 }
 
 function M.setup()
-  local cmp = require "cmp"
-  local icons = require "user.ascii_icons"
-  local luasnip = require "luasnip"
-  require("luasnip/loaders/from_vscode").lazy_load()
+  local cmp = require("cmp")
+  local icons = require("user.ascii_icons")
+  local luasnip = require("luasnip")
+  require("luasnip.loaders.from_vscode").lazy_load()
   cmp.setup {
     snippet = {
       expand = function(args)

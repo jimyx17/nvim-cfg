@@ -1,8 +1,8 @@
 local M = {}
 
-local Log = require("log")
+local Log = require("base.log")
 local fmt = string.format
-local lsp_utils = require "user.lsp.utils"
+local lsp_utils = require "base.lsp.utils"
 local is_windows = vim.loop.os_uname().version:match "Windows"
 
 local function resolve_mason_config(server_name)
@@ -11,8 +11,8 @@ local function resolve_mason_config(server_name)
     Log:debug(fmt("mason configuration not found for %s", server_name))
     return {}
   end
-  local server_mapping = require "mason-lspconfig.mappings.server"
-  local path = require "mason-core.path"
+  local server_mapping = require("mason-lspconfig.mappings.server")
+  local path = require("mason-core.path")
   local pkg_name = server_mapping.lspconfig_to_package[server_name]
   local install_dir = path.package_prefix(pkg_name)
   local conf = mason_config(install_dir)
@@ -32,13 +32,13 @@ end
 ---@return table
 local function resolve_config(server_name, ...)
   local defaults = {
-    on_attach = require("user.lsp").common_on_attach,
-    on_init = require("user.lsp").common_on_init,
-    on_exit = require("user.lsp").common_on_exit,
-    capabilities = require("user.lsp").common_capabilities(),
+    on_attach = require("base.lsp").common_on_attach,
+    on_init = require("base.lsp").common_on_init,
+    on_exit = require("base.lsp").common_on_exit,
+    capabilities = require("base.lsp").common_capabilities(),
   }
 
-  local has_custom_provider, custom_config = pcall(require, "user.lsp.providers." .. server_name)
+  local has_custom_provider, custom_config = pcall(require, "base.lsp.providers." .. server_name)
   if has_custom_provider then
     Log:debug("Using custom configuration for requested server: " .. server_name)
     defaults = vim.tbl_deep_extend("force", defaults, custom_config)
@@ -109,8 +109,8 @@ function M.setup(server_name, user_config)
     return
   end
 
-  local server_mapping = require "mason-lspconfig.mappings.server"
-  local registry = require "mason-registry"
+  local server_mapping = require("mason-lspconfig.mappings.server")
+  local registry = require("mason-registry")
 
   local pkg_name = server_mapping.lspconfig_to_package[server_name]
   if not pkg_name then

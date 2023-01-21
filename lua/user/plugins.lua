@@ -57,7 +57,7 @@ local plugin_list = {
   {
     "nvim-treesitter/nvim-treesitter",
     config = function()
-      local u = require("utils")
+      local u = require("base.utils")
       local path = u.join_paths(u.get_plugin_image_dir(), "nvim-treesitter")
       vim.opt.rtp:prepend(path)
     end

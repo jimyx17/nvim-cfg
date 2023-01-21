@@ -1,6 +1,6 @@
 local M = {}
 
-local Log = require("log")
+local Log = require("base.log")
 
 --- Clean autocommand in a group if it exists
 --- This is safer than trying to delete the augroup itself
@@ -20,7 +20,7 @@ local get_format_on_save_opts = function()
     enabled = false,
     patterh = "*",
     timeout = 1000,
-    filter = require("user.lsp.utils").format_filter
+    filter = require("base.lsp.utils").format_filter
   }
 end
 
@@ -31,7 +31,7 @@ function M.enable_format_on_save()
     group = "lsp_format_on_save",
     pattern = opts.pattern,
     callback = function()
-      require("user.lsp.utils").format { timeout_ms = opts.timeout, filter = opts.filter }
+      require("base.lsp.utils").format { timeout_ms = opts.timeout, filter = opts.filter }
     end,
   })
   Log:debug "enabled format-on-save"
@@ -224,7 +224,7 @@ function M.setup()
       local server_names = require("mason-lspconfig").get_available_servers({ filetype = ft })
       vim.tbl_map(function(server)
         pcall(function()
-          require("user.lsp.manager").setup(server)
+          require("base.lsp.manager").setup(server)
         end)
       end, server_names)
     end

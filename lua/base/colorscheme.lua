@@ -1,6 +1,6 @@
 local M = {}
 
-Log = require("log")
+Log = require("base.log")
 
 M.theme_list = {
   [0] = { name = "rose-pine", setup = function() M.rose_pine() end },
@@ -172,7 +172,7 @@ function M.rose_pine()
 end
 
 function M.catppuccin()
-  local catppuccin = require "catppuccin"
+  local catppuccin = require("catppuccin")
   local opts = {
     flavour = "mocha",
     background = { light = "latte", dark = "mocha" },

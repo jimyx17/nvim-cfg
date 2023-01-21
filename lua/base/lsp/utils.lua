@@ -1,7 +1,7 @@
 local M = {}
 
-local u = require("utils")
-local Log = require("log")
+local u = require("base.utils")
+local Log = require("base.log")
 
 function M.is_client_active(name)
   local clients = vim.lsp.get_active_clients()
@@ -149,8 +149,8 @@ end
 ---@return boolean if client matches
 function M.format_filter(client)
   local filetype = vim.bo.filetype
-  local n = require "null-ls"
-  local s = require "null-ls.sources"
+  local n = require("null-ls")
+  local s = require("null-ls.sources")
   local method = n.methods.FORMATTING
   local available_formatters = s.get_available(filetype, method)
 

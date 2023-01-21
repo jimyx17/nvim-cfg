@@ -73,7 +73,7 @@ function M.setup()
   -- Plugins --
 
   -- Change theme
-  keymap("n", "<leader><leader>", "<cmd>lua require('user.colorscheme').next_theme()<CR>")
+  keymap("n", "<leader><leader>", "<cmd>lua require('base.colorscheme').next_theme()<CR>")
 
   -- NvimTree
   keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
@@ -85,7 +85,7 @@ function M.setup()
   keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
 
   -- Git
-  keymap("n", "<leader>gg", "<cmd>lua require('user.toggleterm').start_lazygit()<CR>", opts)
+  keymap("n", "<leader>gg", "<cmd>lua require('base.toggleterm').start_lazygit()<CR>", opts)
 
   -- Comment
   keymap("n", "<leader>cc", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)

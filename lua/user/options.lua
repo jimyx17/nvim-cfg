@@ -1,6 +1,6 @@
 local M = {}
 
-local u = require("utils")
+local u = require("base.utils")
 local ascii_icons = require("user.ascii_icons")
 
 function M.setup()

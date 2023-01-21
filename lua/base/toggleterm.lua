@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-  local toggleterm = require "toggleterm"
+  local toggleterm = require("toggleterm")
 
   toggleterm.setup {
     size = 20,
