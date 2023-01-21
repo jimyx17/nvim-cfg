@@ -72,6 +72,9 @@ function M.setup()
 
   -- Plugins --
 
+  -- Change theme
+  keymap("n", "<leader><leader>", "<cmd>lua require('user.colorscheme').next_theme()<CR>")
+
   -- NvimTree
   keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 

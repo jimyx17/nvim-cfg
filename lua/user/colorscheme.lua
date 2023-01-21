@@ -1,22 +1,43 @@
 local M = {}
 
+Log = require("log")
+
+M.theme_list = {
+  [0] = { name = "rose-pine", setup = function() M.rose_pine() end },
+  [1] = { name = "catppuccin-mocha", setup = function() M.catppuccin() end },
+  [2] = { name = "kanagawa", setup = function() M.kanagawa() end },
+  [3] = { name = "tokyonight-night", setup = function() M.tokyonight() end },
+}
+M.theme_index = 0
+
+function M.set_theme()
+  local definition = M.theme_list[M.theme_index]
+  Log:debug("setting up Theme with index: " .. M.theme_index)
+  Log:debug("setting up Theme: " .. definition.name)
+  definition.setup()
+  vim.colorscheme = definition.name
+  vim.cmd.colorscheme(definition.name)
+end
+
+function M.next_theme()
+  local count = vim.tbl_count(M.theme_list)
+  M.theme_index = (M.theme_index + 1) % count;
+  M.set_theme()
+end
+
 function M.setup()
   local _time = os.date("*t")
 
   if _time.hour >= 1 and _time.hour < 9 then
-    M.rose_pine()
-    vim.colorscheme = "rose-pine"
+    M.theme_index = 0
   elseif _time.hour >= 9 and _time.hour < 17 then
-    M.catppuccin()
-    vim.colorscheme = "catppuccin-mocha"
+    M.theme_index = 1
   elseif _time.hour >= 17 and _time.hour < 21 then
-    M.kanagawa()
-    vim.colorscheme = "kanagawa"
+    M.theme_index = 2
   else
-    M.tokyonight()
-    vim.colorscheme = "tokyonight-night"
+    M.theme_index = 3
   end
-  vim.cmd.colorscheme(vim.colorscheme)
+  M.set_theme()
 end
 
 function M.tokyonight()
