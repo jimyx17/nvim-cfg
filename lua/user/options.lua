@@ -49,21 +49,15 @@ function M.setup()
   vim.log.level = "DEBUG"
 
   -- Diagnostics
-  vim.diagnostic.virtual_text = true
-  vim.diagnostic.underline = true
-  vim.diagnostic.update_in_insert = true
-  vim.diagnostic.severity_sort = true
-  vim.diagnostic.signs = {
-    active = true,
-    values = {
-      { name = "DiagnosticSignError", text = ascii_icons.icons.Error },
-      { name = "DiagnosticSignWarn", text = ascii_icons.icons.Warning },
-      { name = "DiagnosticSignHint", text = ascii_icons.icons.Hint },
-      { name = "DiagnosticSignInfo", text = ascii_icons.icons.Info },
-    },
+  local signs = {
+    { name = "DiagnosticSignError", text = ascii_icons.icons.error },
+    { name = "DiagnosticSignWarn", text = ascii_icons.icons.warn },
+    { name = "DiagnosticSignHint", text = ascii_icons.icons.hint },
+    { name = "DiagnosticSignInfo", text = ascii_icons.icons.info },
   }
-  vim.diagnostic.float = {
-    focusable = false,
+
+  local float_text = {
+    focusable = true,
     style = "minimal",
     border = "rounded",
     source = "always",
@@ -78,7 +72,21 @@ function M.setup()
     end,
   }
 
+  vim.diagnostic.config({
+    virtual_text = true,
+    underline = true,
+    update_in_insert = true,
+    severity_sort = true,
+    signs = signs,
+    float = float_text,
+  })
+  for _, sign in ipairs(signs) do
+    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+  end
+
   -- LSP
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float_text)
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_text)
   vim.lsp.buffer_mappings = {
     normal_mode = {
       ["K"] = { vim.lsp.buf.hover, "Show hover" },
@@ -104,7 +112,7 @@ function M.setup()
     formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:500})",
   }
   vim.lsp.automatic_configuration = {
-    skipped_servers   = {},
+    skipped_servers   = { "sourcery", "pylsp", "ruff_lsp", "pyright" },
     skipped_filetypes = { "markdown", "rst", "plaintext", "toml", "proto" },
   }
   vim.lsp.installer = {

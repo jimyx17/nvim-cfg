@@ -93,9 +93,6 @@ function M.setup()
     return
   end
 
-  Log:debug("Setting up LSP Handlers")
-  require("user.lsp.handlers").setup()
-
   Log:debug("importing nlspsettings")
   require("nlspsettings").setup(vim.lsp.nlsp_settings.setup)
 

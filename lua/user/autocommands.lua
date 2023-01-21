@@ -204,6 +204,33 @@ function M.setup()
     end,
   })
 
+
+  vim.api.nvim_create_augroup("_lsp_installer", {})
+  vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
+    group = "_lsp_installer",
+    callback = function(args)
+      local skip_ft = vim.lsp.automatic_configuration.skipped_filetypes
+      local ft = vim.bo.filetype
+      if not ft then
+        ft, _ = vim.filetype.match({ filename = args.match, buf = args.buf })
+      end
+      if not ft then
+        ft = require('vim.filetype.detect').conf(args.file, args.buf)
+      end
+      if vim.tbl_contains(skip_ft, ft) then
+        Log:debug("filetype " .. ft .. "is in skipped_filetype list. won't start")
+        return
+      end
+      local server_names = require("mason-lspconfig").get_available_servers({ filetype = ft })
+      vim.tbl_map(function(server)
+        pcall(function()
+          require("user.lsp.manager").setup(server)
+        end)
+      end, server_names)
+    end
+  })
+
+  -- UI Theme auto changes
   vim.api.nvim_create_augroup("_auto_resize", {})
   vim.api.nvim_create_autocmd({ "VimResized" }, {
     group = "_auto_resize",
@@ -214,43 +241,22 @@ function M.setup()
   vim.api.nvim_create_augroup("_colorscheme", {})
   vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     group = "_colorscheme",
+    pattern = "*",
     callback = function()
-      local statusline_hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
-      local cursorline_hl = vim.api.nvim_get_hl_by_name("CursorLine", true)
-      local normal_hl = vim.api.nvim_get_hl_by_name("Normal", true)
-      vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
-      vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
-      vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
-      vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
-      vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644", bg = statusline_hl.background })
-      vim.api.nvim_set_hl(0, "SLGitIcon", { fg = "#E8AB53", bg = cursorline_hl.background })
-      vim.api.nvim_set_hl(0, "SLBranchName", { fg = normal_hl.foreground, bg = cursorline_hl.background })
-      vim.api.nvim_set_hl(0, "SLSeparator", { fg = cursorline_hl.background, bg = statusline_hl.background })
+      -- require("user.colorscheme").telescope_theme()
+      -- local statusline_hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
+      -- local cursorline_hl = vim.api.nvim_get_hl_by_name("CursorLine", true)
+      -- local normal_hl = vim.api.nvim_get_hl_by_name("Normal", true)
+      -- vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+      -- vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
+      -- vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
+      -- vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
+      -- vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644", bg = statusline_hl.background })
+      -- vim.api.nvim_set_hl(0, "SLGitIcon", { fg = "#E8AB53", bg = cursorline_hl.background })
+      -- vim.api.nvim_set_hl(0, "SLBranchName", { fg = normal_hl.foreground, bg = cursorline_hl.background })
+      -- vim.api.nvim_set_hl(0, "SLSeparator", { fg = cursorline_hl.background, bg = statusline_hl.background })
     end,
   })
-
-  vim.api.nvim_create_augroup("_lsp_installer", {})
-  vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
-    group = "_lsp_installer",
-    callback = function(args)
-      Log:debug("CALLED AUTOCOMMAND")
-      local ft = vim.bo.filetype
-      if not ft then
-        ft, _ = vim.filetype.match({ filename = args.match, buf = args.buf })
-      end
-      if not ft then
-        ft = require('vim.filetype.detect').conf(args.file, args.buf)
-      end
-      pcall(function()
-        local server_names = require("mason-lspconfig").get_available_servers({ filetype = ft })
-        Log:debug(vim.inspect(server_names))
-        for _, server in pairs(server_names) do
-          require("user.lsp.manager").setup(server)
-        end
-      end)
-    end
-  })
-
 end
 
 return M

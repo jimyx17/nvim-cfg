@@ -99,6 +99,11 @@ function M.setup(server_name, user_config)
   user_config = user_config or {}
 
   Log:debug("trying to resolve server :" .. server_name)
+  local skip_server = vim.lsp.automatic_configuration.skipped_servers
+  if vim.tbl_contains(skip_server, server_name) then
+    Log:debug("server " .. server_name .. " is in skipped_servers")
+    return
+  end
 
   if lsp_utils.is_client_active(server_name) or client_is_configured(server_name) then
     return

@@ -1,5 +1,7 @@
 local M = {}
 
+local ascii_icons = require("user.ascii_icons")
+
 function M.setup()
   local nvim_tree = require "nvim-tree"
   local nvim_tree_config = require "nvim-tree.config"
@@ -43,10 +45,10 @@ function M.setup()
       enable = true,
       show_on_dirs = true,
       icons = {
-        hint = "",
-        info = "",
-        warning = "",
-        error = "",
+        hint = ascii_icons.icons.hint,
+        info = ascii_icons.icons.info,
+        warning = ascii_icons.icons.warn,
+        error = ascii_icons.icons.error,
       },
     },
     view = {
