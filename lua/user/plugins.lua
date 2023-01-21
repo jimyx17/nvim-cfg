@@ -39,7 +39,7 @@ local plugin_list = {
   { "rafamadriz/friendly-snippets", lazy = true }, -- a bunch of snippets to use
 
   -- LSP
-  -- use { "williamboman/nvim-lsp-installer", commit = "e9f13d7acaa60aff91c58b923002228668c8c9e6" } -- simple to use language server installer
+  { "lvimuser/lsp-inlayhints.nvim", lazy = true },
   { "folke/neodev.nvim", lazy = true },
   { "neovim/nvim-lspconfig", dependencies = { "mason-lspconfig.nvim", "nlsp-settings.nvim" }, lazy = true }, -- enable LSP
   { "williamboman/mason-lspconfig.nvim", lazy = true },
@@ -48,6 +48,13 @@ local plugin_list = {
   { "RRethy/vim-illuminate", lazy = true },
   { "williamboman/mason.nvim", lazy = true },
   { "ray-x/lsp_signature.nvim", lazy = true }, -- Show function signatures
+  { "folke/noice.nvim",
+    requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
+    config = function()
+      require("noice").setup()
+    end }, -- Show function signatures
+  { "rcarriga/nvim-notify" },
+  { "MunifTanjim/nui.nvim" },
 
   -- Telescope
   { "nvim-telescope/telescope.nvim", lazy = true, dependencies = { "telescope-fzf-native.nvim" }, cmd = "Telescope" },
