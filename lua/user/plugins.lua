@@ -53,7 +53,9 @@ local plugin_list = {
   { "folke/noice.nvim",
     requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
     config = function()
-      require("noice").setup()
+      require("noice").setup({ presets = {
+        lsp_doc_border = true, -- add a border to hover docs and signature help
+      } })
     end }, -- Show function signatures
   { "rcarriga/nvim-notify" },
   { "MunifTanjim/nui.nvim" },

@@ -46,7 +46,7 @@ function M.setup()
   vim.opt.iskeyword:append "-" -- treats words with `-` as single words
   vim.opt.formatoptions:remove { "c", "r", "o" } -- This is a sequence of letters which describes how automatic formatting is to be done
   vim.opt.linebreak = true
-  vim.log.level = "DEBUG"
+  vim.log.level = "INFO"
 
   -- Diagnostics
   local signs = {
@@ -80,13 +80,12 @@ function M.setup()
     signs = signs,
     float = float_text,
   })
+
   for _, sign in ipairs(signs) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
   end
 
   -- LSP
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float_text)
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float_text)
   vim.lsp.buffer_mappings = {
     normal_mode = {
       ["K"] = { vim.lsp.buf.hover, "Show hover" },
@@ -97,25 +96,28 @@ function M.setup()
       ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
       ["gl"] = {
         function()
-          local config = vim.lsp.diagnostics.float
+          -- local config = float_text
+          local config = {}
           config.scope = "line"
-          vim.diagnostic.open_float(0, config)
+          vim.diagnostic.open_float(config)
         end,
         "Show line diagnostics",
       },
       ["ge"] = {
         function()
-          local config = vim.lsp.diagnostics.float
+          -- local config = float_text
+          local config = {}
           config.scope = "line"
-          vim.diagnostic.goto_next(0, config)
+          vim.diagnostic.goto_next(config)
         end,
         "Go to next line diagnostics",
       },
       ["gE"] = {
         function()
-          local config = vim.lsp.diagnostics.float
+          -- local config = float_text
+          local config = {}
           config.scope = "line"
-          vim.diagnostic.goto_prev(0, config)
+          vim.diagnostic.goto_prev(config)
         end,
         "Go to next line diagnostics",
       },

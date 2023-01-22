@@ -106,6 +106,7 @@ function M.setup()
   require("base.lsp.null-ls").setup()
 
   autocmds.configure_format_on_save()
+
 end
 
 return M

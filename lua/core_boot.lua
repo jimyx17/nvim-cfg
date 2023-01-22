@@ -1,5 +1,7 @@
 local M = {}
 
+local Log = require("base.log")
+
 function M.setup()
   --Prepare the system for loading the rest of plugins
   require("base.bootstrap").boot()
@@ -7,7 +9,7 @@ function M.setup()
   --Obtain the list of pluings and populate them
   local plugins = require("user.plugins")
   require("base.package_manager").setup(plugins)
-  vim.notify("Plugins loaded")
+  Log:info("Plugins loaded")
 
   -- Register autocommands
   require("base.autocommands").setup()
