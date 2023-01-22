@@ -131,4 +131,9 @@ function M.setup()
   keymap("n", "<leader>xx", "<cmd>qall!<cr>", opts)
 end
 
+---Setup HTTP rest keybindings
+function M.rest_keymaps()
+  keymap("n", "<leader>hh", "<cmd>lua require('rest-nvim').run()<CR>", {})
+end
+
 return M
