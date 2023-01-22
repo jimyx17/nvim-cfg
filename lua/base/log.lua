@@ -39,7 +39,7 @@ function Log:init()
             structlog.processors.StackWriter({ "line", "file" }, { max_parents = 0, stack_level = 3 }),
             structlog.processors.Timestamper "%H:%M:%S",
           },
-          formatter = structlog.formatters.FormatColorizer( --
+          formatter = structlog.formatters.FormatColorizer(--
             "%s [%s] %s: %-30s",
             { "timestamp", "level", "logger_name", "msg" },
             { level = structlog.formatters.FormatColorizer.color_level() }
@@ -52,7 +52,7 @@ function Log:init()
             structlog.processors.StackWriter({ "line", "file" }, { max_parents = 3, stack_level = 3 }),
             structlog.processors.Timestamper "%H:%M:%S",
           },
-          formatter = structlog.formatters.Format( --
+          formatter = structlog.formatters.Format(--
             "%s [%s] %s: %-30s",
             { "timestamp", "level", "logger_name", "msg" }
           ),
@@ -63,7 +63,7 @@ function Log:init()
   }
 
   structlog.configure(vim_log)
-  local logger = structlog.get_logger "vim"
+  local logger = structlog.get_logger("vim")
 
   -- Overwrite `vim.notify` to use the logger
   if vim.log.override_notify then
@@ -113,7 +113,7 @@ function Log:configure_notifications(notif_handle)
       default_namer,
       notify_opts_injecter,
     },
-    formatter = structlog.formatters.Format( --
+    formatter = structlog.formatters.Format(--
       "%s",
       { "msg" },
       { blacklist_all = true }
@@ -204,6 +204,30 @@ end
 ---@param event any
 function Log:error(msg, event)
   self:add_entry(self.levels.ERROR, msg, event)
+end
+
+---Send a notify message with ERROR level
+--@param msg any
+function Log:notify_error(msg)
+  vim.notify(msg, self.levels.ERROR)
+end
+
+---Send a notify message with WARN level
+--@param msg any
+function Log:notify_warn(msg)
+  vim.notify(msg, self.levels.WARN)
+end
+
+---Send a notify message with INFO level
+--@param msg any
+function Log:notify_info(msg)
+  vim.notify(msg, self.levels.INFO)
+end
+
+---Send a notify message with DEBUG level
+--@param msg any
+function Log:notify_debug(msg)
+  vim.notify(msg, self.levels.DEBUG)
 end
 
 setmetatable({}, Log)

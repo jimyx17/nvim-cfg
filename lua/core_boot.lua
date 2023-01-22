@@ -9,7 +9,7 @@ function M.setup()
   --Obtain the list of pluings and populate them
   local plugins = require("user.plugins")
   require("base.package_manager").setup(plugins)
-  Log:info("Plugins loaded")
+  Log:notify_info("Plugins loaded")
 
   -- Register autocommands
   require("base.autocommands").setup()

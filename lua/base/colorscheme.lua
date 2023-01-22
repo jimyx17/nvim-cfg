@@ -17,6 +17,7 @@ function M.set_theme()
   definition.setup()
   vim.colorscheme = definition.name
   vim.cmd.colorscheme(definition.name)
+  vim.notify("Theme: " .. definition.name, "info")
 end
 
 function M.next_theme()
