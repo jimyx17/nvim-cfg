@@ -17,12 +17,24 @@ local plugin_list = {
   { "goolord/alpha-nvim" },
 
   -- Colorschemes
-  { "folke/tokyonight.nvim" },
-  { "lunarvim/darkplus.nvim", name = "darkplus" },
-  { "LunarVim/lunar.nvim", name = "lunar" },
-  { "rose-pine/neovim", name = "rose-pine" },
-  { "catppuccin/nvim", name = "catppuccin" },
-  { "rebelot/kanagawa.nvim", name = "kanagawa" },
+  { "folke/tokyonight.nvim", lazy = true },
+  { "lunarvim/darkplus.nvim", name = "darkplus", lazy = true },
+  { "LunarVim/lunar.nvim", name = "lunar", lazy = true },
+  { "rose-pine/neovim", name = "rose-pine", lazy = true },
+  { "catppuccin/nvim", name = "catppuccin", lazy = true },
+  { "rebelot/kanagawa.nvim", name = "kanagawa", lazy = true },
+  { "sainnhe/gruvbox-material", lazy = true },
+  { "sainnhe/edge", lazy = true },
+  { "sainnhe/sonokai", lazy = true },
+  { "bluz71/vim-nightfly-colors", name = "nightfly", lazy = true },
+  { "bluz71/vim-moonfly-colors", name = "moonfly", lazy = true },
+  { "dracula/vim", name = "dracula", lazy = true },
+  { "mhartington/oceanic-next", name = "OceanicNext", lazy = true },
+  { "fenetikm/falcon", name = "falcon", lazy = true },
+  { "shaunsingh/nord.nvim", name = "nord", lazy = true },
+  { "marko-cerovac/material.nvim", name = "material", lazy = true },
+  { "EdenEast/nightfox.nvim", name = "nightfox", lazy = true },
+  { "projekt0n/github-nvim-theme", name = "github-theme", lazy = true },
 
   -- cmp plugins
   { "hrsh7th/nvim-cmp", event = { "InsertEnter", "CmdlineEnter" },
@@ -94,7 +106,13 @@ local plugin_list = {
       require("crates").setup()
     end,
   },
-
+  {
+    "rest-nvim/rest.nvim",
+    config = function()
+      require("base.rest_http").config()
+    end
+  },
+  { "ThePrimeagen/vim-be-good" },
   -- Measure startup time, not needed for normal use
   { "dstein64/vim-startuptime" },
 }

@@ -47,6 +47,10 @@ function M.setup()
   vim.opt.formatoptions:remove { "c", "r", "o" } -- This is a sequence of letters which describes how automatic formatting is to be done
   vim.opt.linebreak = true
   vim.log.level = "INFO"
+  -- Custom configuration
+  vim.g.format_on_save = true
+  -- Theme
+  vim.g.theme = "moonfly"
 
   -- Diagnostics
   local signs = {
@@ -153,8 +157,7 @@ function M.setup()
       loader = "json",
     },
   }
-  -- Custom configuration
-  vim.g.format_on_save = true
+
 
 end
 

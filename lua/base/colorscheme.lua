@@ -13,6 +13,13 @@ M.theme_list = {
   [7] = { name = "edge", setup = function() end },
   [8] = { name = "sonokai", setup = function() end },
   [9] = { name = "nightfly", setup = function() end },
+  [10] = { name = "moonfly", setup = function() end },
+  [11] = { name = "dracula", setup = function() end },
+  [12] = { name = "OceanicNext", setup = function() end },
+  [13] = { name = "falcon", setup = function() end },
+  [14] = { name = "nord", setup = function() require("nord").set() end },
+  [15] = { name = "material", setup = function() require("material").setup() end },
+  [16] = { name = "github_dark_default", setup = function() require("github-theme").setup() end },
 }
 M.theme_index = 0
 
