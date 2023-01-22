@@ -86,6 +86,16 @@ local plugin_list = {
   { "ravenxrz/DAPInstall.nvim", lazy = true },
   { "Tastyep/structlog.nvim" },
 
+  {
+    "saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    dependencies = { { "nvim-lua/plenary.nvim" } },
+    config = function()
+      require("crates").setup()
+    end,
+  },
+
+  -- Measure startup time, not needed for normal use
   { "dstein64/vim-startuptime" },
 }
 
