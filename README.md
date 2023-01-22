@@ -162,4 +162,10 @@ The `<leader>` key is set to ` `
 `<C-h>`       -> move to the terminal on the left
 `<C-l>`       -> move to the terminal on the right
 
+#### Theme
+
+By default, when NVIM loads, it changes the theme based on the time of the day.
+
+`<leader><leader>` -> change theme
+
 ---
