@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
   -- Define the new colorscheme
-  require("base.colorscheme").setup()
+  require("base.colorscheme").setup(vim.g.theme)
 
   -- Create the dashboard menu
   require("base.alpha").setup()
