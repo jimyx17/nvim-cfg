@@ -59,6 +59,8 @@ function M.setup()
   keymap("n", "<A-l>", ":tabnext<CR>", opts)
   keymap("n", "<A-h>", ":tabprevious<CR>", opts)
 
+  keymap("n", "<A-o>", ":tabnew<CR>", opts)
+
   -- Close tabs
   keymap("n", "<A-x>", ":tabclose<CR>", opts)
 
@@ -76,7 +78,8 @@ function M.setup()
   keymap("n", "<leader><leader>", "<cmd>lua require('base.colorscheme').next_theme()<CR>")
 
   -- NvimTree
-  keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+  keymap("n", "<leader>et", ":NvimTreeToggle<CR>", opts)
+  keymap("n", "<leader>ee", ":NvimTreeFocus<CR>", opts)
 
   -- Telescope
   keymap("n", "<leader>ff", ":Telescope find_files<CR>", opts)
@@ -105,15 +108,6 @@ function M.setup()
 
   -- Lsp
   keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
-  keymap("n", "<leader>lj",
-    "<cmd>lua vim.diagnostic.goto_next({float = {border = 'rounded', focusable = false, source = 'always'}, severity = {min = vim.diagnostic.severity.WARN}})<cr>"
-    , opts)
-  keymap("n", "<leader>lJ",
-    "<cmd>lua vim.diagnostic.goto_prev({float = {border = 'rounded', focusable = false, source = 'always'}, severity = {min = vim.diagnostic.severity.WARN}})<cr>"
-    , opts)
-  keymap("n", "<leader>ll",
-    "<cmd>lua vim.diagnostic.open_float({float = {border = 'rounded', focusable = false, source = 'always'}, severity = {min = vim.diagnostic.severity.WARN}})<cr>"
-    , opts)
 
   -- Term
   keymap("n", "<C-t>", "<cmd>ToggleTerm direction=float<cr>", opts)
@@ -127,8 +121,6 @@ function M.setup()
   keymap("t", "<esc>3", [[<C-\><C-n><cmd>3ToggleTerm<cr>]], opts)
   keymap("t", "<esc>c", [[<C-\><C-n><cmd>ToggleTermToggleAll<cr>]], opts)
   keymap("t", "<c-h>", [[<C-\><C-n><C-W>h]], opts)
-  keymap("t", "<c-j>", [[<C-\><C-n><C-W>j]], opts)
-  keymap("t", "<c-k>", [[<C-\><C-n><C-W>k]], opts)
   keymap("t", "<c-l>", [[<C-\><C-n><C-W>l]], opts)
 
   -- General out

@@ -103,6 +103,22 @@ function M.setup()
         end,
         "Show line diagnostics",
       },
+      ["ge"] = {
+        function()
+          local config = vim.lsp.diagnostics.float
+          config.scope = "line"
+          vim.diagnostic.goto_next(0, config)
+        end,
+        "Go to next line diagnostics",
+      },
+      ["gE"] = {
+        function()
+          local config = vim.lsp.diagnostics.float
+          config.scope = "line"
+          vim.diagnostic.goto_prev(0, config)
+        end,
+        "Go to next line diagnostics",
+      },
     },
     insert_mode = {},
     visual_mode = {},
