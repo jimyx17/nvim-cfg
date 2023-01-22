@@ -7,6 +7,12 @@ M.theme_list = {
   [1] = { name = "catppuccin-mocha", setup = function() M.catppuccin() end },
   [2] = { name = "kanagawa", setup = function() M.kanagawa() end },
   [3] = { name = "tokyonight-night", setup = function() M.tokyonight() end },
+  [4] = { name = "darkplus", setup = function() require("darkplus").setup() end },
+  [5] = { name = "lunar", setup = function() require("lunar").setup() end },
+  [6] = { name = "gruvbox-material", setup = function() end },
+  [7] = { name = "edge", setup = function() end },
+  [8] = { name = "sonokai", setup = function() end },
+  [9] = { name = "nightfly", setup = function() end },
 }
 M.theme_index = 0
 
@@ -26,17 +32,11 @@ function M.next_theme()
   M.set_theme()
 end
 
-function M.setup()
-  local _time = os.date("*t")
-
-  if _time.hour >= 1 and _time.hour < 9 then
-    M.theme_index = 0
-  elseif _time.hour >= 9 and _time.hour < 17 then
-    M.theme_index = 1
-  elseif _time.hour >= 17 and _time.hour < 21 then
-    M.theme_index = 2
-  else
-    M.theme_index = 3
+function M.setup(theme)
+  for idx, definition in pairs(M.theme_list) do
+    if theme == definition.name then
+      M.theme_index = idx
+    end
   end
   M.set_theme()
 end
@@ -200,7 +200,7 @@ function M.catppuccin()
       treesitter = true,
       mason = true,
       -- neotest = lvim.builtin.test_runner == "neotest",
-      -- noice = lvim.builtin.noice.active,
+      noice = true,
       native_lsp = {
         enabled = true,
         virtual_text = {
@@ -225,7 +225,7 @@ function M.catppuccin()
         colored_indent_levels = false,
       },
       -- gitsigns = lvim.builtin.gitsigns.active,
-      -- notify = lvim.builtin.noice.active,
+      notify = true,
       nvimtree = true,
       neotree = true,
       overseer = "",
