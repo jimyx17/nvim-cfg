@@ -50,7 +50,7 @@ function M.setup()
   -- Custom configuration
   vim.g.format_on_save = true
   -- Theme
-  vim.g.theme = "moonfly"
+  vim.g.theme = "kanagawa"
 
   -- Diagnostics
   local signs = {
