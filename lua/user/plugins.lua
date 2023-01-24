@@ -73,7 +73,8 @@ local plugin_list = {
   { "MunifTanjim/nui.nvim" },
 
   -- Telescope
-  { "nvim-telescope/telescope.nvim", lazy = true, dependencies = { "telescope-fzf-native.nvim" }, cmd = "Telescope" },
+  { "nvim-telescope/telescope.nvim", branch = "master", lazy = true, dependencies = { "telescope-fzf-native.nvim" },
+    cmd = "Telescope" },
   { "nvim-telescope/telescope-fzf-native.nvim", lazy = true },
 
   -- Treesitter
