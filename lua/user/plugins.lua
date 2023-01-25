@@ -72,6 +72,9 @@ local plugin_list = {
   { "rcarriga/nvim-notify" },
   { "MunifTanjim/nui.nvim" },
 
+  -- breadcrumbs
+  { "SmiteshP/nvim-navic" },
+
   -- Telescope
   { "nvim-telescope/telescope.nvim", branch = "master", lazy = true, dependencies = { "telescope-fzf-native.nvim" },
     cmd = "Telescope" },

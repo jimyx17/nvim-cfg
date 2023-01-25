@@ -7,6 +7,9 @@ function M.setup()
   -- Create the dashboard menu
   require("base.alpha").setup()
 
+  -- Create winbar for breadcrums
+  require("base.breadcrums").setup()
+
   -- Create "tab" like buffers
   require("base.bufferline").setup()
 

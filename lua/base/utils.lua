@@ -11,6 +11,25 @@ local function find_first(t, predicate)
   end
 end
 
+---Checks whether input string is nil or empty
+---@param s string to be checked
+---@return true|false
+function M.isempty(s)
+  return s == nil or s == ""
+end
+
+---Get buffer options
+---@param opt string option to to be obtained
+---@return any
+function M.get_buf_option(opt)
+  local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
+  if not status_ok then
+    return nil
+  else
+    return buf_option
+  end
+end
+
 ---Join path segments passed as input
 ---@return string
 function M.join_paths(...)
