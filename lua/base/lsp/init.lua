@@ -65,15 +65,17 @@ function M.common_on_attach(client, bufnr)
     Log:debug "Called lsp.on_attach_callback"
   end
   local lu = require("base.lsp.utils")
-  if vim.lsp.document_highlight then
-    lu.setup_document_highlight(client, bufnr)
-  end
-  if vim.lsp.code_lens_refresh then
-    lu.setup_codelens_refresh(client, bufnr)
-  end
+  -- if vim.lsp.document_highlight then
+  lu.setup_document_highlight(client, bufnr)
+  -- end
+  -- if vim.lsp.code_lens_refresh then
+  lu.setup_codelens_refresh(client, bufnr)
+  -- end
   add_lsp_buffer_keybindings(bufnr)
   add_lsp_buffer_options(bufnr)
   lu.setup_document_symbols(client, bufnr)
+
+  require("illuminate").on_attach(client, bufnr)
 end
 
 function M.get_common_opts()
@@ -93,7 +95,6 @@ function M.setup()
     return
   end
 
-  Log:debug("importing nlspsettings")
   require("nlspsettings").setup(vim.lsp.nlsp_settings.setup)
 
   -- Setting up the LSP installer
@@ -106,7 +107,6 @@ function M.setup()
   require("base.lsp.null-ls").setup()
 
   autocmds.configure_format_on_save()
-
 end
 
 return M
