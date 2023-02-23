@@ -135,7 +135,50 @@ function M.setup()
     formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:500})",
   }
   vim.lsp.automatic_configuration = {
-    skipped_servers   = { "sourcery", "pylsp", "ruff_lsp", "pyright" },
+    skipped_servers = {
+      "angularls",
+      "ansiblels",
+      "ccls",
+      "csharp_ls",
+      "cssmodules_ls",
+      "denols",
+      "ember",
+      "emmet_ls",
+      "eslint",
+      "eslintls",
+      "glint",
+      "golangci_lint_ls",
+      "gradle_ls",
+      "graphql",
+      "jedi_language_server",
+      "ltex",
+      "neocmake",
+      "ocamlls",
+      "phpactor",
+      "psalm",
+      "pylsp",
+      "quick_lint_js",
+      "reason_ls",
+      "rnix",
+      "rome",
+      "ruby_ls",
+      "ruff_lsp",
+      "scry",
+      "solang",
+      "solc",
+      "solidity_ls",
+      "sorbet",
+      "sourcekit",
+      "sourcery",
+      "spectral",
+      "sqlls",
+      "sqls",
+      "stylelint_lsp",
+      "svlangserver",
+      "tflint",
+      "verible",
+      "vuels",
+    },
     skipped_filetypes = { "markdown", "rst", "plaintext", "toml", "proto" },
   }
   vim.lsp.installer = {
@@ -147,7 +190,10 @@ function M.setup()
     }
   }
   vim.lsp.null_ls = {
-    setup = {}
+    setup = {
+      debounce = 150,
+      save_after_format = false,
+    }
   }
   vim.lsp.nlsp_settings = {
     setup = {

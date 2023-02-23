@@ -55,7 +55,6 @@ function M.boot()
   install_logger()
   require("base.log"):set_level(vim.log.level)
   vim.opt.runtimepath:append(utils.join_paths(utils.get_plugin_image_dir(), "*"))
-  init_lazy_cache()
 end
 
 return M

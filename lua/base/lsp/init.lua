@@ -104,9 +104,10 @@ function M.setup()
   -- automatic_installation is handled by lsp-manager
   util.on_setup = nil
 
+  require("base.lsp.null-ls").config()
   require("base.lsp.null-ls").setup()
 
-  autocmds.configure_format_on_save()
+   autocmds.configure_format_on_save()
 end
 
 return M
