@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-  local toggleterm = require("toggleterm")
+  local toggleterm = require "toggleterm"
 
   toggleterm.setup {
     size = 20,
@@ -25,6 +25,12 @@ function M.setup()
   function M.start_lazygit()
     lazygit:toggle()
   end
+end
+
+function M.exec_toggle(opts)
+  local Terminal = require("toggleterm.terminal").Terminal
+  local term = Terminal:new { cmd = opts.cmd, count = opts.count, direction = opts.direction }
+  term:toggle(opts.size, opts.direction)
 end
 
 return M

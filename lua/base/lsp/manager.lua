@@ -1,6 +1,6 @@
 local M = {}
 
-local Log = require("base.log")
+local Log = require "base.log"
 local fmt = string.format
 local lsp_utils = require "base.lsp.utils"
 local is_windows = vim.loop.os_uname().version:match "Windows"
@@ -11,8 +11,8 @@ local function resolve_mason_config(server_name)
     Log:debug(fmt("mason configuration not found for %s", server_name))
     return {}
   end
-  local server_mapping = require("mason-lspconfig.mappings.server")
-  local path = require("mason-core.path")
+  local server_mapping = require "mason-lspconfig.mappings.server"
+  local path = require "mason-core.path"
   local pkg_name = server_mapping.lspconfig_to_package[server_name]
   local install_dir = path.package_prefix(pkg_name)
   local conf = mason_config(install_dir)
@@ -75,10 +75,10 @@ end
 local function launch_server(server_name, config)
   pcall(function()
     local command = config.cmd
-        or (function()
-          local default_config = require("lspconfig.server_configurations." .. server_name).default_config
-          return default_config.cmd
-        end)()
+      or (function()
+        local default_config = require("lspconfig.server_configurations." .. server_name).default_config
+        return default_config.cmd
+      end)()
     -- some servers have dynamic commands defined with on_new_config
     if type(command) == "table" and type(command[1]) == "string" and vim.fn.executable(command[1]) ~= 1 then
       Log:debug(string.format("[%q] is either not installed, missing from PATH, or not executable.", server_name))
@@ -101,6 +101,7 @@ function M.setup(server_name, user_config)
   Log:debug("trying to resolve server :" .. server_name)
   local skip_server = vim.lsp.automatic_configuration.skipped_servers
   if vim.tbl_contains(skip_server, server_name) then
+    print("SERVER SKIPPED.. " .. server_name)
     Log:debug("server " .. server_name .. " is in skipped_servers")
     return
   end
@@ -109,8 +110,8 @@ function M.setup(server_name, user_config)
     return
   end
 
-  local server_mapping = require("mason-lspconfig.mappings.server")
-  local registry = require("mason-registry")
+  local server_mapping = require "mason-lspconfig.mappings.server"
+  local registry = require "mason-registry"
 
   local pkg_name = server_mapping.lspconfig_to_package[server_name]
   if not pkg_name then
@@ -123,7 +124,7 @@ function M.setup(server_name, user_config)
     local installer_settings = vim.lsp.installer.setup
     Log:debug("SERVERS: " .. vim.inspect(installer_settings))
     return installer_settings.automatic_installation
-        and not vim.tbl_contains(installer_settings.automatic_installation.exclude, name)
+      and not vim.tbl_contains(installer_settings.automatic_installation.exclude, name)
   end
 
   if not registry.is_installed(pkg_name) then

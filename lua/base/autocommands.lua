@@ -1,6 +1,6 @@
 local M = {}
 
-local Log = require("base.log")
+local Log = require "base.log"
 
 --- Clean autocommand in a group if it exists
 --- This is safer than trying to delete the augroup itself
@@ -20,7 +20,7 @@ local get_format_on_save_opts = function()
     enabled = false,
     patterh = "*",
     timeout = 1000,
-    filter = require("base.lsp.utils").format_filter
+    filter = require("base.lsp.utils").format_filter,
   }
 end
 
@@ -204,7 +204,6 @@ function M.setup()
     end,
   })
 
-
   vim.api.nvim_create_augroup("_lsp_installer", {})
   vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "StdinReadPost" }, {
     group = "_lsp_installer",
@@ -212,22 +211,22 @@ function M.setup()
       local skip_ft = vim.lsp.automatic_configuration.skipped_filetypes
       local ft = vim.bo.filetype
       if not ft then
-        ft, _ = vim.filetype.match({ filename = args.match, buf = args.buf })
+        ft, _ = vim.filetype.match { filename = args.match, buf = args.buf }
       end
       if not ft then
-        ft = require('vim.filetype.detect').conf(args.file, args.buf)
+        ft = require("vim.filetype.detect").conf(args.file, args.buf)
       end
       if vim.tbl_contains(skip_ft, ft) then
         Log:debug("filetype " .. ft .. "is in skipped_filetype list. won't start")
         return
       end
-      local server_names = require("mason-lspconfig").get_available_servers({ filetype = ft })
+      local server_names = require("mason-lspconfig").get_available_servers { filetype = ft }
       vim.tbl_map(function(server)
         pcall(function()
           require("base.lsp.manager").setup(server)
         end)
       end, server_names)
-    end
+    end,
   })
 
   vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
@@ -243,7 +242,6 @@ function M.setup()
       require("lsp-inlayhints").on_attach(client, bufnr)
     end,
   })
-
 
   -- UI Theme auto changes
   vim.api.nvim_create_augroup("_auto_resize", {})

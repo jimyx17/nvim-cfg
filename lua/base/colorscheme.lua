@@ -1,14 +1,44 @@
 local M = {}
 
-Log = require("base.log")
+Log = require "base.log"
 
 M.theme_list = {
-  [0] = { name = "rose-pine", setup = function() M.rose_pine() end },
-  [1] = { name = "catppuccin-mocha", setup = function() M.catppuccin() end },
-  [2] = { name = "kanagawa", setup = function() M.kanagawa() end },
-  [3] = { name = "tokyonight-night", setup = function() M.tokyonight() end },
-  [4] = { name = "darkplus", setup = function() require("darkplus").setup() end },
-  [5] = { name = "lunar", setup = function() require("lunar").setup() end },
+  [0] = {
+    name = "rose-pine",
+    setup = function()
+      M.rose_pine()
+    end,
+  },
+  [1] = {
+    name = "catppuccin-mocha",
+    setup = function()
+      M.catppuccin()
+    end,
+  },
+  [2] = {
+    name = "kanagawa",
+    setup = function()
+      M.kanagawa()
+    end,
+  },
+  [3] = {
+    name = "tokyonight-night",
+    setup = function()
+      M.tokyonight()
+    end,
+  },
+  [4] = {
+    name = "darkplus",
+    setup = function()
+      require("darkplus").setup()
+    end,
+  },
+  [5] = {
+    name = "lunar",
+    setup = function()
+      require("lunar").setup()
+    end,
+  },
   [6] = { name = "gruvbox-material", setup = function() end },
   [7] = { name = "edge", setup = function() end },
   [8] = { name = "sonokai", setup = function() end },
@@ -17,9 +47,24 @@ M.theme_list = {
   [11] = { name = "dracula", setup = function() end },
   [12] = { name = "OceanicNext", setup = function() end },
   [13] = { name = "falcon", setup = function() end },
-  [14] = { name = "nord", setup = function() require("nord").set() end },
-  [15] = { name = "material", setup = function() require("material").setup() end },
-  [16] = { name = "github_dark_default", setup = function() require("github-theme").setup() end },
+  [14] = {
+    name = "nord",
+    setup = function()
+      require("nord").set()
+    end,
+  },
+  [15] = {
+    name = "material",
+    setup = function()
+      require("material").setup()
+    end,
+  },
+  [16] = {
+    name = "github_dark_default",
+    setup = function()
+      require("github-theme").setup()
+    end,
+  },
 }
 M.theme_index = 0
 
@@ -35,7 +80,7 @@ end
 
 function M.next_theme()
   local count = vim.tbl_count(M.theme_list)
-  M.theme_index = (M.theme_index + 1) % count;
+  M.theme_index = (M.theme_index + 1) % count
   M.set_theme()
 end
 
@@ -180,7 +225,7 @@ function M.rose_pine()
 end
 
 function M.catppuccin()
-  local catppuccin = require("catppuccin")
+  local catppuccin = require "catppuccin"
   local opts = {
     flavour = "mocha",
     background = { light = "latte", dark = "mocha" },
@@ -285,13 +330,15 @@ function M.kanagawa()
     -- dimInactive = lvim.builtin.global_statusline, -- dim inactive window `:h hl-NormalNC`
     -- globalStatus = lvim.builtin.global_statusline, -- adjust window separators highlight for laststatus=3
     -- transparent = lvim.transparent_window,
-    colors = { sumiInk1b = "#1b1b23" },
-    overrides = {
-      diffRemoved = { fg = "#E46876" },
-      NvimTreeFolderIcon = { fg = "#7e9cd8" },
-      CmpItemKindEnum = { fg = "#957FB8" },
-      ["@parameter"] = { fg = "#DCA561" },
-    },
+    -- colors = { sumiInk1b = "#1b1b23" },
+    overrides = function(colors)
+      return {
+        diffRemoved = { fg = "#E46876" },
+        NvimTreeFolderIcon = { fg = "#7e9cd8" },
+        CmpItemKindEnum = { fg = "#957FB8" },
+        ["@parameter"] = { fg = "#DCA561" },
+      }
+    end,
   }
 end
 

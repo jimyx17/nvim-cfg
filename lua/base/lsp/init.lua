@@ -1,6 +1,7 @@
 local M = {}
-local Log = require("base.log")
-local autocmds = require("base.autocommands")
+local u = require "base.utils"
+local Log = require "base.log"
+local autocmds = require "base.autocommands"
 
 local function add_lsp_buffer_options(bufnr)
   for k, v in pairs(vim.lsp.buffer_options) do
@@ -44,14 +45,15 @@ end
 
 function M.common_on_exit(_, _)
   if vim.lsp.document_highlight then
-    autocmds.clear_augroup("lsp_document_highlight")
+    autocmds.clear_augroup "lsp_document_highlight"
   end
   if vim.lsp.code_lens_refresh then
-    autocmds.clear_augroup("lsp_code_lens_refresh")
+    autocmds.clear_augroup "lsp_code_lens_refresh"
   end
 end
 
 function M.common_on_init(client, bufnr)
+  client.offset_encoding = "utf-8"
   if vim.lsp.on_init_callback then
     vim.lsp.on_init_callback(client, bufnr)
     Log:debug "Called lsp.on_init_callback"
@@ -64,7 +66,7 @@ function M.common_on_attach(client, bufnr)
     vim.lsp.on_attach_callback(client, bufnr)
     Log:debug "Called lsp.on_attach_callback"
   end
-  local lu = require("base.lsp.utils")
+  local lu = require "base.lsp.utils"
   -- if vim.lsp.document_highlight then
   lu.setup_document_highlight(client, bufnr)
   -- end
@@ -88,7 +90,7 @@ function M.get_common_opts()
 end
 
 function M.setup()
-  Log:debug("Setting up LSP support")
+  Log:debug "Setting up LSP support"
 
   local lsp_status_ok, _ = pcall(require, "lspconfig")
   if not lsp_status_ok then
@@ -100,14 +102,14 @@ function M.setup()
   -- Setting up the LSP installer
   require("base.lsp.mason").setup()
 
-  local util = require("lspconfig.util")
+  local util = require "lspconfig.util"
   -- automatic_installation is handled by lsp-manager
   util.on_setup = nil
 
   require("base.lsp.null-ls").config()
   require("base.lsp.null-ls").setup()
 
-   autocmds.configure_format_on_save()
+  autocmds.configure_format_on_save()
 end
 
 return M

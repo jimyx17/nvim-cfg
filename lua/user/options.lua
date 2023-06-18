@@ -1,7 +1,7 @@
 local M = {}
 
-local u = require("base.utils")
-local ascii_icons = require("user.ascii_icons")
+local u = require "base.utils"
+local ascii_icons = require "user.ascii_icons"
 
 function M.setup()
   vim.opt.backup = false -- creates a backup file
@@ -25,7 +25,7 @@ function M.setup()
   vim.opt.timeoutlen = 1000 -- time to wait for a mapped sequence to complete (in milliseconds)
   vim.opt.undofile = true -- enable persistent undo
   vim.opt.updatetime = 300 -- faster completion (4000ms default)
-  vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+  vim.opt.writebackup = true -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
   vim.opt.expandtab = true -- convert tabs to spaces
   vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
   vim.opt.tabstop = 2 -- insert 2 spaces for a tab
@@ -77,14 +77,14 @@ function M.setup()
     end,
   }
 
-  vim.diagnostic.config({
+  vim.diagnostic.config {
     virtual_text = true,
     underline = true,
     update_in_insert = true,
     severity_sort = true,
     signs = signs,
     float = float_text,
-  })
+  }
 
   for _, sign in ipairs(signs) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
@@ -186,14 +186,14 @@ function M.setup()
       ensure_installed = {},
       automatic_installation = {
         exclude = {},
-      }
-    }
+      },
+    },
   }
   vim.lsp.null_ls = {
     setup = {
       debounce = 150,
       save_after_format = false,
-    }
+    },
   }
   vim.lsp.nlsp_settings = {
     setup = {
@@ -204,8 +204,6 @@ function M.setup()
       loader = "json",
     },
   }
-
-
 end
 
 return M

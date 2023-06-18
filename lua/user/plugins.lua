@@ -37,8 +37,11 @@ local plugin_list = {
   { "projekt0n/github-nvim-theme", name = "github-theme", lazy = true },
 
   -- cmp plugins
-  { "hrsh7th/nvim-cmp", event = { "InsertEnter", "CmdlineEnter" },
-    dependencies = { "cmp-nvim-lsp", "cmp_luasnip", "cmp-buffer", "cmp-path", "cmp-cmdline" } }, -- The completion plugin
+  {
+    "hrsh7th/nvim-cmp",
+    event = { "InsertEnter", "CmdlineEnter" },
+    dependencies = { "cmp-nvim-lsp", "cmp_luasnip", "cmp-buffer", "cmp-path", "cmp-cmdline" },
+  }, -- The completion plugin
   { "hrsh7th/cmp-buffer", lazy = true }, -- buffer completions
   { "hrsh7th/cmp-path", lazy = true }, -- path completions
   { "hrsh7th/cmp-cmdline", lazy = true }, -- path completions
@@ -51,9 +54,13 @@ local plugin_list = {
   { "rafamadriz/friendly-snippets", lazy = true }, -- a bunch of snippets to use
 
   -- LSP
-  { "lvimuser/lsp-inlayhints.nvim", lazy = true, config = function()
-    require("lsp-inlayhints").setup()
-  end },
+  {
+    "lvimuser/lsp-inlayhints.nvim",
+    lazy = true,
+    config = function()
+      require("lsp-inlayhints").setup()
+    end,
+  },
   { "folke/neodev.nvim", lazy = true },
   { "neovim/nvim-lspconfig", dependencies = { "mason-lspconfig.nvim", "nlsp-settings.nvim" }, lazy = true }, -- enable LSP
   { "williamboman/mason-lspconfig.nvim", lazy = true },
@@ -62,13 +69,17 @@ local plugin_list = {
   { "RRethy/vim-illuminate", lazy = true },
   { "williamboman/mason.nvim", lazy = true },
   { "ray-x/lsp_signature.nvim", lazy = true }, -- Show function signatures
-  { "folke/noice.nvim",
+  {
+    "folke/noice.nvim",
     requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
     config = function()
-      require("noice").setup({ presets = {
-        lsp_doc_border = true, -- add a border to hover docs and signature help
-      } })
-    end }, -- Show function signatures
+      require("noice").setup {
+        presets = {
+          lsp_doc_border = true, -- add a border to hover docs and signature help
+        },
+      }
+    end,
+  }, -- Show function signatures
   { "rcarriga/nvim-notify" },
   { "MunifTanjim/nui.nvim" },
 
@@ -76,23 +87,36 @@ local plugin_list = {
   { "SmiteshP/nvim-navic" },
 
   -- Telescope
-  { "nvim-telescope/telescope.nvim", branch = "master", lazy = true, dependencies = { "telescope-fzf-native.nvim" },
-    cmd = "Telescope" },
+  {
+    "nvim-telescope/telescope.nvim",
+    branch = "master",
+    lazy = true,
+    dependencies = { "telescope-fzf-native.nvim" },
+    cmd = "Telescope",
+  },
   { "nvim-telescope/telescope-fzf-native.nvim", lazy = true },
 
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
     config = function()
-      local u = require("base.utils")
+      local u = require "base.utils"
       local path = u.join_paths(u.get_plugin_image_dir(), "nvim-treesitter")
       vim.opt.rtp:prepend(path)
-    end
+    end,
   },
 
   -- multi-line
   { "mg979/vim-visual-multi" },
-
+  -- {
+  --   "simrat39/rust-tools.nvim",
+  --   lazy = true,
+  --   config = function()
+  --     require("user.rust").config()
+  --   end,
+  --   ft = { "rust", "rs" },
+  -- },
+  --
   -- Git annotations. Too much information at editing time?
   -- { "lewis6991/gitsigns.nvim", commit = "f98c85e7c3d65a51f45863a34feb4849c82f240f" }
 
@@ -101,7 +125,6 @@ local plugin_list = {
   { "rcarriga/nvim-dap-ui", lazy = true },
   { "ravenxrz/DAPInstall.nvim", lazy = true },
   { "Tastyep/structlog.nvim" },
-
   {
     "saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
@@ -114,12 +137,11 @@ local plugin_list = {
     "rest-nvim/rest.nvim",
     config = function()
       require("base.rest_http").config()
-    end
+    end,
   },
   { "ThePrimeagen/vim-be-good" },
   -- Measure startup time, not needed for normal use
   { "dstein64/vim-startuptime" },
 }
-
 
 return plugin_list
